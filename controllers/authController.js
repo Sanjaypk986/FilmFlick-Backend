@@ -4,15 +4,11 @@ const jwt = require("jsonwebtoken");
 
 const login = async (req, res) => {
   try {
-    // get the data from req.body
     const data = req.body;
-    // check user in database with given email.
     const user = await User.findOne({ email: data.email }).exec();
-    //   if statement to check user availability
     if (!user) {
       return res.status(401).send("Invalid Email or Password");
     }
-    // check password in database with given password
     const passwordsMatch = bcrypt.compareSync(data.password, user.password);
     if (passwordsMatch) {
       const token = jwt.sign(
@@ -25,8 +21,7 @@ const login = async (req, res) => {
         secure: true,
         sameSite: "none",
       });
-      // for Handling review crud for user
-      res.send("login success");
+      res.json({ message: "login success", userId: user._id }); // Update this line
     } else {
       res.status(401).send("Unauthorized Access! Wrong Password");
     }
@@ -35,6 +30,7 @@ const login = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
 
 const Verify = async (req, res) => {
   if (req.cookies && req.cookies.token) {
