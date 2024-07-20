@@ -25,7 +25,8 @@ const login = async (req, res) => {
         secure: true,
         sameSite: "none",
       });
-      res.send("Logged In");
+      // for Handling review crud for user
+      res.send("login success");
     } else {
       res.status(401).send("Unauthorized Access! Wrong Password");
     }
@@ -39,13 +40,15 @@ const Verify = async (req, res) => {
   if (req.cookies && req.cookies.token) {
     try {
       const payload = jwt.verify(req.cookies.token, process.env.JWT_KEY);
-      res.json({ verified: true });
+      req.user = payload
+      res.json({ verified: true,userId: req.user._id });
+
     } catch (error) {
       console.error("JWT verification error:", error);
       res.status(401).send("Unauthorized Access!");
     }
   } else {
-    res.json({ verified: false });
+    res.json({ verified: false});
   }
 };
 const Logout = async (req, res) => {
