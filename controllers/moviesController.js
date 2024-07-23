@@ -4,13 +4,25 @@ const Movie = require("../models/movieModels");
 const getAllMovies = async (req, res) => {
   try {
 
-    const { search } = req.query;
-    const query = {};
+    const { search,genre ,language } = req.query;
+     // Construct the query object
+     const query = {};
 
-    if (search) {
-      query.title = { $regex: search, $options: 'i' };
-    }
-
+     // Add search filter if a search term is provided
+     if (search) {
+       query.title = { $regex: search, $options: 'i' }; // Case-insensitive search
+     }
+ 
+     // Add genre filter if provided
+     if (genre) {
+       query.genre = genre;
+     }
+ 
+     // Add language filter if provided
+     if (language) {
+       query.language = language;
+     }
+ 
     const movies = await Movie.find(query);
     res.json(movies);
   } catch (error) {
