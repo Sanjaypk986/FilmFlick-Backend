@@ -3,13 +3,22 @@ const Movie = require("../models/movieModels");
 // get all movies
 const getAllMovies = async (req, res) => {
   try {
-    const movies = await Movie.find(req.query);
+
+    const { search } = req.query;
+    const query = {};
+
+    if (search) {
+      query.title = { $regex: search, $options: 'i' };
+    }
+
+    const movies = await Movie.find(query);
     res.json(movies);
   } catch (error) {
     console.error("Error fetching movies:", error);
     res.status(500).send("Internal Server Error");
   }
 };
+
 
 // get movie by id
 const getMovieById = async (req, res) => {
