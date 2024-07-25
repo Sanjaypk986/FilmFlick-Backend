@@ -10,6 +10,7 @@ const reviewRoutes = require('./routes/reviewRoutes')
 const userRoutes = require('./routes/userRoutes')
 const authRoutes = require('./routes/authRoutes')
 const upcomingRoutes = require('./routes/upcomingRoutes')
+const premiereRoutes = require('./routes/premiereRoutes')
 const port = 3001;
 
 // CORS
@@ -28,6 +29,7 @@ app.use('/users',  userRoutes)
 app.use('/auth',  authRoutes)
 app.use('/reviews',  reviewRoutes)
 app.use('/upcoming',  upcomingRoutes)
+app.use('/premiere',  premiereRoutes)
 
 
 app.listen(port, () => {
