@@ -1,4 +1,4 @@
-const Movie = require("../models/movieModels");
+const Movie = require ("../models/movieModels");
 
 // get all movies
 const getAllMovies = async (req, res) => {
